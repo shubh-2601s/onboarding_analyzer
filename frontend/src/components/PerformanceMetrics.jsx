@@ -11,7 +11,7 @@ const PerformanceMetrics = ({ funnelData, theme }) => {
       calculateMetrics();
     }
   }, [funnelData]);
-
+ 
   const calculateMetrics = () => {
     const analysis = funnelData.analysis;
     if (!analysis || analysis.length === 0) return;
