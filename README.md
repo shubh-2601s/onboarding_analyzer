@@ -321,4 +321,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
+
 Built with ❤️ for data-driven teams who want to optimize their onboarding funnels with AI-powered insights.
