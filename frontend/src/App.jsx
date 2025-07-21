@@ -11,6 +11,7 @@ import ThemeToggle from './components/ThemeToggle';
 import AIAgentDashboard from './components/AIAgentDashboard';
 import { Toaster } from 'react-hot-toast';
 
+
 function App() {
     const [funnelData, setFunnelData] = useState(null);
     const [loading, setLoading] = useState(true);
