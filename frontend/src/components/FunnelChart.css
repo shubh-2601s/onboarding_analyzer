@@ -11,7 +11,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
+  right: 0; 
   bottom: 0;
   background: linear-gradient(45deg, transparent 30%, rgba(0, 210, 255, 0.1) 50%, transparent 70%);
   opacity: 0;
