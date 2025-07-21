@@ -15,6 +15,7 @@ from dataclasses import asdict
 # Load environment variables first
 load_dotenv()
 
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
