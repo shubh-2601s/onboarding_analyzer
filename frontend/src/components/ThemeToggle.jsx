@@ -14,7 +14,7 @@ const ThemeToggle = () => {
     const root = document.documentElement;
     
     if (newTheme === 'light') {
-      root.style.setProperty('--bg-primary', '#ffffff');
+      root.style.setProperty('--bg-primary', '#ffffff'); 
       root.style.setProperty('--bg-secondary', '#f8fafc');
       root.style.setProperty('--text-primary', '#1f2937');
       root.style.setProperty('--text-secondary', '#6b7280');
