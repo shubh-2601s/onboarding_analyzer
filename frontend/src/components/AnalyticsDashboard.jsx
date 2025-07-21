@@ -3,7 +3,7 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   BarChart, Bar, PieChart, Pie, Cell, AreaChart, Area, FunnelChart, Funnel, LabelList
 } from 'recharts';
-
+ 
 const AnalyticsDashboard = () => {
     const [funnelData, setFunnelData] = useState(null);
     const [recommendations, setRecommendations] = useState([]);
