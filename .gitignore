@@ -1,0 +1,11 @@
+# Ignore Python environment files
+.env
+*.pyc
+__pycache__/
+
+# Ignore Node.js environment files
+node_modules/
+.env
+
+# Ignore database files
+database.db

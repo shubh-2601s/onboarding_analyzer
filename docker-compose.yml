@@ -1,0 +1,152 @@
+version: '3.8'
+
+services:
+  # Redis for caching and real-time features
+  redis:
+    image: redis:7-alpine
+    container_name: onboarding_redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-securepassword}
+    volumes:
+      - redis_data:/data
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Backend API
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: onboarding_backend
+    restart: unless-stopped
+    environment:
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+      - POSTHOG_PROJECT_API_KEY=${POSTHOG_PROJECT_API_KEY}
+      - POSTHOG_HOST=${POSTHOG_HOST:-https://app.posthog.com}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-securepassword}@redis:6379/0
+      - DATABASE_URL=sqlite:///./database.db
+      - SECRET_KEY=${SECRET_KEY:-your-secret-key-here}
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000,http://localhost}
+    volumes:
+      - ./backend/database.db:/app/database.db
+      - backend_logs:/app/logs
+    depends_on:
+      - redis
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: onboarding_frontend
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-80}:80"
+    depends_on:
+      - backend
+    networks:
+      - app_network
+    environment:
+      - REACT_APP_BACKEND_API_URL=${REACT_APP_BACKEND_API_URL:-http://localhost/api}
+      - REACT_APP_ENVIRONMENT=${ENVIRONMENT:-production}
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Celery worker for background tasks
+  celery_worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: onboarding_celery
+    restart: unless-stopped
+    command: celery -A app.celery worker --loglevel=info
+    environment:
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+      - POSTHOG_PROJECT_API_KEY=${POSTHOG_PROJECT_API_KEY}
+      - POSTHOG_HOST=${POSTHOG_HOST:-https://app.posthog.com}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-securepassword}@redis:6379/0
+      - DATABASE_URL=sqlite:///./database.db
+      - SECRET_KEY=${SECRET_KEY:-your-secret-key-here}
+    volumes:
+      - ./backend/database.db:/app/database.db
+      - backend_logs:/app/logs
+    depends_on:
+      - redis
+      - backend
+    networks:
+      - app_network
+
+  # Celery beat for scheduled tasks
+  celery_beat:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: onboarding_celery_beat
+    restart: unless-stopped
+    command: celery -A app.celery beat --loglevel=info
+    environment:
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+      - POSTHOG_PROJECT_API_KEY=${POSTHOG_PROJECT_API_KEY}
+      - POSTHOG_HOST=${POSTHOG_HOST:-https://app.posthog.com}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-securepassword}@redis:6379/0
+      - DATABASE_URL=sqlite:///./database.db
+      - SECRET_KEY=${SECRET_KEY:-your-secret-key-here}
+    volumes:
+      - ./backend/database.db:/app/database.db
+      - backend_logs:/app/logs
+    depends_on:
+      - redis
+      - backend
+    networks:
+      - app_network
+
+  # Nginx reverse proxy (optional, for advanced setups)
+  nginx:
+    image: nginx:alpine
+    container_name: onboarding_nginx
+    restart: unless-stopped
+    ports:
+      - "${NGINX_PORT:-443}:443"
+      - "${NGINX_HTTP_PORT:-80}:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - nginx_logs:/var/log/nginx
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app_network
+    profiles:
+      - production
+
+volumes:
+  redis_data:
+    driver: local
+  backend_logs:
+    driver: local
+  nginx_logs:
+    driver: local
+
+networks:
+  app_network:
+    driver: bridge

@@ -1,0 +1,487 @@
+/* DropOffTable Component Styles */
+.dropoff-table-wrapper {
+  position: relative;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), rgba(245, 158, 11, 0.05));
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.dropoff-table-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  padding: 2px;
+  background: linear-gradient(45deg, var(--accent-red), var(--accent-yellow), var(--accent-green));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: xor;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.dropoff-table-wrapper:hover::after {
+  opacity: 0.3;
+}
+
+.dropoff-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: transparent;
+  table-layout: fixed;
+}
+
+.dropoff-table thead {
+  position: relative;
+}
+
+.dropoff-table thead::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+}
+
+.dropoff-table thead th {
+  padding: 1.25rem 1.5rem;
+  vertical-align: middle;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.dropoff-table thead th:first-child {
+  border-top-left-radius: 16px;
+  text-align: left;
+  width: 35%;
+}
+
+.dropoff-table thead th:nth-child(2) {
+  text-align: right;
+  width: 20%;
+}
+
+.dropoff-table thead th:nth-child(3) {
+  text-align: center;
+  width: 25%;
+}
+
+.dropoff-table thead th:last-child {
+  border-top-right-radius: 16px;
+  text-align: center;
+  width: 20%;
+}
+
+.dropoff-table-header-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.dropoff-table-header-icon:hover {
+  transform: scale(1.05);
+}
+
+.dropoff-table tbody tr {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.dropoff-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: scale(1.01);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.dropoff-table tbody tr::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 60%;
+  background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+  border-radius: 0 4px 4px 0;
+  transition: width 0.3s ease;
+}
+
+.dropoff-table tbody tr:hover::before {
+  width: 4px;
+}
+
+.dropoff-table tbody td {
+  padding: 1.5rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: middle;
+  position: relative;
+}
+
+.dropoff-table tbody td:first-child {
+  text-align: left;
+  width: 35%;
+}
+
+.dropoff-table tbody td:nth-child(2) {
+  text-align: right;
+  width: 20%;
+}
+
+.dropoff-table tbody td:nth-child(3) {
+  text-align: center;
+  width: 25%;
+}
+
+.dropoff-table tbody td:last-child {
+  text-align: center;
+  width: 20%;
+}
+
+.dropoff-step-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dropoff-step-number {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 210, 255, 0.4);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.dropoff-step-number:hover {
+  transform: rotate(360deg) scale(1.2);
+  box-shadow: 0 4px 16px rgba(0, 210, 255, 0.6);
+}
+
+.dropoff-step-name {
+  font-weight: 500;
+  font-size: 1.125rem;
+  color: white;
+  text-transform: capitalize;
+  transition: color 0.3s ease;
+}
+
+.dropoff-table tbody tr:hover .dropoff-step-name {
+  color: var(--accent-primary);
+}
+
+.dropoff-rate-display {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.dropoff-rate-number {
+  font-weight: bold;
+  font-size: 1.25rem;
+  transition: all 0.3s ease;
+  min-width: 60px;
+  text-align: right;
+}
+
+.dropoff-rate-number.high {
+  color: #fca5a5;
+  text-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+}
+
+.dropoff-rate-number.medium {
+  color: #fcd34d;
+  text-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+}
+
+.dropoff-rate-number.low {
+  color: #6ee7b7;
+  text-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+}
+
+.dropoff-mini-progress {
+  flex: 1;
+  max-width: 6rem;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  margin: 0 auto;
+}
+
+.dropoff-mini-progress::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: translateX(-100%);
+  animation: progress-shimmer 2s ease-in-out infinite;
+}
+
+@keyframes progress-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.dropoff-mini-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.dropoff-mini-fill.high {
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+}
+
+.dropoff-mini-fill.medium {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+}
+
+.dropoff-mini-fill.low {
+  background: linear-gradient(90deg, #10b981, #059669);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+}
+
+.dropoff-priority-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 8px 16px;
+  border-radius: 24px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(10px);
+  border: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.dropoff-priority-badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.dropoff-priority-badge:hover::before {
+  left: 100%;
+}
+
+.dropoff-priority-badge.high-risk {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.dropoff-priority-badge.high-risk:hover {
+  background: rgba(239, 68, 68, 0.25);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3);
+}
+
+.dropoff-priority-badge.moderate {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fcd34d;
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.dropoff-priority-badge.moderate:hover {
+  background: rgba(245, 158, 11, 0.25);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+}
+
+.dropoff-priority-badge.healthy {
+  background: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.dropoff-priority-badge.healthy:hover {
+  background: rgba(16, 185, 129, 0.25);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+}
+
+.dropoff-warning-pulse {
+  animation: warning-pulse 2s ease-in-out infinite;
+  font-size: 1rem;
+}
+
+@keyframes warning-pulse {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+  50% { 
+    opacity: 0.7; 
+    transform: scale(1.1); 
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .dropoff-table thead th,
+  .dropoff-table tbody td {
+    padding: 1rem 1rem;
+  }
+  
+  .dropoff-rate-display {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  .dropoff-mini-progress {
+    max-width: 4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dropoff-table-wrapper {
+    margin: 0 -1rem;
+    border-radius: 16px;
+  }
+  
+  .dropoff-table {
+    table-layout: auto;
+  }
+  
+  .dropoff-table thead th,
+  .dropoff-table tbody td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .dropoff-table thead th:nth-child(1),
+  .dropoff-table tbody td:nth-child(1) {
+    width: 40%;
+  }
+  
+  .dropoff-table thead th:nth-child(2),
+  .dropoff-table tbody td:nth-child(2) {
+    width: 18%;
+  }
+  
+  .dropoff-table thead th:nth-child(3),
+  .dropoff-table tbody td:nth-child(3) {
+    width: 22%;
+  }
+  
+  .dropoff-table thead th:nth-child(4),
+  .dropoff-table tbody td:nth-child(4) {
+    width: 20%;
+  }
+  
+  .dropoff-step-info {
+    gap: 0.5rem;
+  }
+  
+  .dropoff-step-name {
+    font-size: 1rem;
+  }
+  
+  .dropoff-rate-number {
+    font-size: 1.125rem;
+  }
+  
+  .dropoff-priority-badge {
+    padding: 6px 12px;
+    font-size: 0.625rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dropoff-table thead th,
+  .dropoff-table tbody td {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.8125rem;
+  }
+  
+  .dropoff-table thead th:nth-child(1),
+  .dropoff-table tbody td:nth-child(1) {
+    width: 45%;
+  }
+  
+  .dropoff-table thead th:nth-child(2),
+  .dropoff-table tbody td:nth-child(2) {
+    width: 15%;
+  }
+  
+  .dropoff-table thead th:nth-child(3),
+  .dropoff-table tbody td:nth-child(3) {
+    width: 20%;
+  }
+  
+  .dropoff-table thead th:nth-child(4),
+  .dropoff-table tbody td:nth-child(4) {
+    width: 20%;
+  }
+  
+  .dropoff-step-name {
+    font-size: 0.875rem;
+  }
+  
+  .dropoff-rate-number {
+    font-size: 1rem;
+  }
+}
+
+/* Loading Animation for Table Rows */
+.dropoff-table tbody tr {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.dropoff-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+.dropoff-table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+.dropoff-table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+.dropoff-table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+.dropoff-table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+
+/* Accessibility Enhancements */
+@media (prefers-reduced-motion: reduce) {
+  .dropoff-table tbody tr,
+  .dropoff-step-number,
+  .dropoff-priority-badge {
+    transition: none;
+    animation: none;
+  }
+  
+  .dropoff-step-number:hover {
+    transform: scale(1.1);
+  }
+}
