@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './AIAgentDashboard.css';
-
+ 
 const AIAgentDashboard = ({ funnelData, onRefresh }) => {
     const [agentStatus, setAgentStatus] = useState({});
     const [aiInsights, setAiInsights] = useState([]);
